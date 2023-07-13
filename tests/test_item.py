@@ -12,5 +12,7 @@ def test_item_sum(items):
     assert items.calculate_total_price() == 200000
 
 def test_item_discount(items):
-    """ Проверяем при скидке (скидки нет) конкретного товара"""
-    assert items.apply_discount() == None
+    """ Проверяем при скидке (0.8) конкретного товара"""
+    items.apply_discount()
+    Item.pay_rate = 0.8
+    assert 10000 * Item.pay_rate == 8000.0
