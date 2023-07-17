@@ -1,18 +1,44 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 import pytest
+
 from src.item import Item
 
 
-@pytest.fixture
-def items():
-    return Item("Смартфон", 10000, 20)
+@pytest.mark.parametrize(
+    ('discount', 'price_with_discount'), [
+        (0, 10_000),
+        (0.15, 8_500),
+        (0.27, 7_300),
+    ]
+)
+def test_apply_discount(discount, price_with_discount):
+    item = Item('test_item', 10_000, 20)
+    Item.pay_rate = 1 - discount
 
-def test_item_sum(items):
-    """ Проверяем общую стоимотсть товара стоимость товара"""
-    assert items.calculate_total_price() == 200000
+    # Тест полная цена товара
+    assert item.calculate_total_price() == 20_0000
 
-def test_item_discount(items):
-    """ Проверяем при скидке (0.8) конкретного товара"""
-    items.apply_discount()
-    Item.pay_rate = 0.8
-    assert 10000 * Item.pay_rate == 8000.0
+    item.apply_discount()
+    # Тест Цена со скидкой
+    assert item.price == price_with_discount
+
+    # Тест c именем "test_item"
+    assert item.name == "test_item"
+
+    # Тест c именем "maxoog"
+    item.name = "maxoog"
+    assert item.name == "maxoog"
+
+    # Тест name.setter
+    item.name = "Электро-самокат"
+    assert item.name == "Электро-са"
+
+    # Тест для instantiate_from_csv()
+    item1 = Item.instantiate_from_csv()
+    assert isinstance(item, Item)
+
+
+    # Тест для string_to_number
+    item2 = Item.string_to_number("as sdf sdf 60")
+    assert item2 == 60
+
