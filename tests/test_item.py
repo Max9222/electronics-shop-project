@@ -42,3 +42,8 @@ def test_apply_discount(discount, price_with_discount):
     item2 = Item.string_to_number("as sdf sdf 60")
     assert item2 == 60
 
+    # Тест для repr и str
+    item1 = Item("Кулек", 50000, 70)
+    assert repr(item1) == "Item('Кулек', 50000, 70)"
+    assert str(item1) == 'Кулек'
+
