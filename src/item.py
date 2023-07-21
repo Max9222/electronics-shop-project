@@ -84,10 +84,3 @@ class Item:
         integer = nums_from_string.get_nums(str_all)
 
         return math.trunc(integer[0])
-
-
-
-item1 = Item("Смартфон", 10000, 20)
-
-print(repr(item1))
-print(str(item1))
