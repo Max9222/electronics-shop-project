@@ -47,3 +47,8 @@ def test_apply_discount(discount, price_with_discount):
     assert repr(item1) == "Item('Кулек', 50000, 70)"
     assert str(item1) == 'Кулек'
 
+    # Тест для метода __add__
+    item3 = Item("Смартфон", 10000, 20)
+    assert item3 + item1 == 90
+
+

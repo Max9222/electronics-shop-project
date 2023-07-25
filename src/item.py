@@ -3,7 +3,7 @@ import os
 import nums_from_string
 import math
 
-
+import nums_from_string
 
 
 class Item:
@@ -46,7 +46,6 @@ class Item:
         """
         self.price = float(self.price * self.pay_rate)
 
-
     # Геттер для name
     @property
     def name(self):
@@ -84,3 +83,9 @@ class Item:
         integer = nums_from_string.get_nums(str_all)
 
         return math.trunc(integer[0])
+
+    def __add__(self, other):
+        """Сложение по количеству товара в магазине"""
+        if issubclass(other.__class__, self.__class__):
+            return self.quantity + other.quantity
+        return None
