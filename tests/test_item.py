@@ -16,6 +16,7 @@ def test_apply_discount(discount, price_with_discount):
     Item.pay_rate = 1 - discount
 
     # Тест полная цена товара
+
     assert item.calculate_total_price() == 20_0000
 
     item.apply_discount()
