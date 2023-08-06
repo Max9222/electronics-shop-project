@@ -57,4 +57,4 @@ def test_apply_discount(discount, price_with_discount):
 def test_instantiate_from_csv():
     with pytest.raises(FileNotFoundError) as file:
         Item.instantiate_from_csv('itemss.csv')
-    assert str(file.value) == 'Отсутствует файл item.csv'
+    assert str(file.value) == 'Отсутствует файл items.csv'
