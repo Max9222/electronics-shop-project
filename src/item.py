@@ -1,9 +1,7 @@
 import csv
-import os
-import nums_from_string
-import math
+from src.instantiatecsverror import InstantiateCSVError
 
-import nums_from_string
+
 
 
 class Item:
@@ -65,27 +63,33 @@ class Item:
             self.__name = name[:10]
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, filename='items.csv'):
         cls.all.clear()
-        with open('../src/items.csv', encoding='windows-1251', newline='', ) as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                name = row['name']
-                price = row['price']
-                quantity = row['quantity']
-                cls(name, price, quantity)
+        try:
+            with open(filename, encoding='windows-1251', newline='', ) as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    name = row['name']
+                    price = row['price']
+                    quantity = row['quantity']
+                    if not name or not price or not quantity:   # Если файл `item.csv` поврежден (например, отсутствует одна из колонок данных) → выбрасывается исключение `InstantiateCSVError` с сообщением “_Файл item.csv поврежден_”.
+                        raise InstantiateCSVError('Файл items.csv поврежден')
+                    cls(name, price, quantity)
+        except FileNotFoundError:       # Если файл `items.csv`, из которого по умолчанию считываются данные, не найден → выбрасывается исключение `FileNotFoundError` с сообщением “_Отсутствует файл item.csv_"
+            print('Отсутствует файл items.csv')
+
 
     @staticmethod
     def string_to_number(str_all):
         """
         Возвращает число из числа-строки
         """
-        integer = nums_from_string.get_nums(str_all)
 
-        return math.trunc(integer[0])
+        return int(float(str_all))
 
     def __add__(self, other):
         """Сложение по количеству товара в магазине"""
         if issubclass(other.__class__, self.__class__):
             return self.quantity + other.quantity
         return None
+
